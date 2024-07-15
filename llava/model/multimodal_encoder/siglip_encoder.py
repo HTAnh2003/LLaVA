@@ -1,12 +1,11 @@
-with open("/kaggle/working/LLaVA/llava/model/multimodal_encoder/clip_encoder.py", 'w') as f:
-    f.write('''
 import torch
 import torch.nn as nn
 
-from transformers import CLIPVisionModel, CLIPImageProcessor, CLIPVisionConfig
+from transformers import SiglipImageProcessor, SiglipVisionConfig
+from transformers.models.siglip.modeling_siglip import SiglipVisionModel
 
 
-class CLIPVisionTower(nn.Module):
+class SiglipVisionTower(nn.Module):
     def __init__(self, image_tower, args, delay_load=False, cache_dir='./cache_dir'):
         super().__init__()
 
@@ -21,11 +20,11 @@ class CLIPVisionTower(nn.Module):
         if not delay_load:
             self.load_model()
         else:
-            self.cfg_only = CLIPVisionConfig.from_pretrained(self.image_tower_name, cache_dir=self.cache_dir)
+            self.cfg_only = SiglipVisionConfig.from_pretrained(self.image_tower_name, cache_dir=self.cache_dir)
 
     def load_model(self):
-        self.image_processor = CLIPImageProcessor.from_pretrained(self.image_tower_name, cache_dir=self.cache_dir)
-        self.image_tower = CLIPVisionModel.from_pretrained(self.image_tower_name, cache_dir=self.cache_dir)
+        self.image_processor = SiglipImageProcessor.from_pretrained(self.image_tower_name, cache_dir=self.cache_dir)
+        self.image_tower = SiglipVisionModel.from_pretrained(self.image_tower_name, cache_dir=self.cache_dir)
         self.image_tower.requires_grad_(False)
 
         self.is_loaded = True
@@ -80,4 +79,3 @@ class CLIPVisionTower(nn.Module):
     @property
     def num_patches(self):
         return (self.config.image_size // self.config.patch_size) ** 2
-''')
