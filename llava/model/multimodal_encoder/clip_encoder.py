@@ -1,5 +1,3 @@
-with open("/kaggle/working/LLaVA/llava/model/multimodal_encoder/clip_encoder.py", 'w') as f:
-    f.write('''
 import torch
 import torch.nn as nn
 
@@ -80,4 +78,3 @@ class CLIPVisionTower(nn.Module):
     @property
     def num_patches(self):
         return (self.config.image_size // self.config.patch_size) ** 2
-''')
