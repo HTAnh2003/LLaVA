@@ -13,9 +13,9 @@ def build_vision_tower(vision_tower_cfg, **kwargs):
     # is_absolute_path_exists = os.path.exists(image_tower)
     if vision_tower .startswith("openai") or vision_tower .startswith("laion"):
         return CLIPVisionTower(vision_tower , args=vision_tower_cfg, cache_dir='./cache_dir', **kwargs)
-    if image_tower.startswith("google"):
+    if vision_tower.startswith("google"):
         return SiglipVisionTower(vision_tower , args=vision_tower_cfg, cache_dir='./cache_dir', **kwargs)
-    if image_tower.endswith('LanguageBind_Image'):
+    if vision_tower.endswith('LanguageBind_Image'):
         return LanguageBindImageTower(vision_tower, args=vision_tower_cfg, cache_dir='./cache_dir', **kwargs)
 
     raise ValueError(f'Unknown image tower: {vision_tower}')
