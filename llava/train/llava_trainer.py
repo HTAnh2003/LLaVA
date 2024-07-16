@@ -14,6 +14,14 @@ from transformers.trainer import (
 )
 from typing import List, Optional
 
+# Name of the files used for checkpointing
+TRAINING_ARGS_NAME = "training_args.bin"
+TRAINER_STATE_NAME = "trainer_state.json"
+OPTIMIZER_NAME = "optimizer.pt"
+OPTIMIZER_NAME_BIN = "optimizer.bin"
+SCHEDULER_NAME = "scheduler.pt"
+SCALER_NAME = "scaler.pt"
+FSDP_MODEL_NAME = "pytorch_model_fsdp"
 
 def maybe_zero_3(param, ignore_status=False, name=None):
     from deepspeed import zero
