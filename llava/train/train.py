@@ -456,7 +456,7 @@ def preprocess_v1(
         total_len = int(target.ne(tokenizer.pad_token_id).sum())
 
         rounds = conversation.split(conv.sep2)
-        cur_len = 1
+        cur_len = 1 + 1 # 1 for bos, and 1 for compensating in the first round
         target[:cur_len] = IGNORE_INDEX
         for i, rou in enumerate(rounds):
             if rou == "":
@@ -469,10 +469,10 @@ def preprocess_v1(
 
             if has_image:
                 round_len = len(tokenizer_image_token(rou, tokenizer))
-                instruction_len = len(tokenizer_image_token(parts[0], tokenizer)) - 2
+                instruction_len = len(tokenizer_image_token(parts[0], tokenizer)) - 2 + 1  # -2 for the extra tokens in tokenizing "USER", +1 for the missing "</s>"
             else:
                 round_len = len(tokenizer(rou).input_ids)
-                instruction_len = len(tokenizer(parts[0]).input_ids) - 2
+                instruction_len = len(tokenizer(parts[0]).input_ids) - 2 + 1
 
             if i != 0 and not tokenizer.legacy and IS_TOKENIZER_GREATER_THAN_0_14:
                 round_len -= 1
